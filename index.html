@@ -767,7 +767,7 @@
       </div>
       <div class="form-group">
         <label class="form-label">AI Model</label>
-        <input type="text" id="localModelInput" class="input-control" value="google/gemini-2.0-flash-001" placeholder="google/gemini-2.0-flash-001" />
+        <input type="text" id="localModelInput" class="input-control" value="google/gemini-2.5-flash" placeholder="google/gemini-2.5-flash" />
       </div>
       <div style="display: flex; justify-content: flex-end; gap: 10px;">
         <button class="btn btn-secondary" onclick="toggleSettingsModal(false)">Cancel</button>
@@ -1174,7 +1174,7 @@
       targetRoleAnalysis: null,
       jdAnalysis: null,
       localApiKey: localStorage.getItem('openrouter_key') || DEFAULT_API_KEY,
-      localModel: localStorage.getItem('openrouter_model') || 'google/gemini-2.0-flash-001'
+      localModel: localStorage.getItem('openrouter_model') || 'google/gemini-2.5-flash'
     };
 
     // Initialize UI settings on load
@@ -1403,7 +1403,7 @@ RESPONSIBILITIES:
 
     async function callOpenRouterDirect(action, requestBody) {
       const apiKey = requestBody.apiKey || DEFAULT_API_KEY;
-      const model = requestBody.model || 'google/gemini-2.0-flash-001';
+      const model = requestBody.model || 'google/gemini-2.5-flash';
 
       let systemPrompt = "You are an expert AI Resume Analyst, Senior Technical Recruiter, and Career Coach. Analyze user inputs meticulously. Do NOT invent skills, experience, achievements, companies, certifications, or metrics not explicitly present in the provided resume text. Respond ONLY with valid, raw JSON (no markdown codeblock wrappers).";
       let userPrompt = "";
@@ -1431,6 +1431,7 @@ RESPONSIBILITIES:
             { role: 'user', content: userPrompt }
           ],
           temperature: 0.2,
+          max_tokens:4000,
           response_format: { type: 'json_object' }
         })
       });
@@ -1679,7 +1680,7 @@ RESPONSIBILITIES:
 
     function saveSettings() {
       state.localApiKey = document.getElementById('localApiKeyInput').value.trim();
-      state.localModel = document.getElementById('localModelInput').value.trim() || 'google/gemini-2.0-flash-001';
+      state.localModel = document.getElementById('localModelInput').value.trim() || 'google/gemini-2.5-flash';
       localStorage.setItem('openrouter_key', state.localApiKey);
       localStorage.setItem('openrouter_model', state.localModel);
       toggleSettingsModal(false);
